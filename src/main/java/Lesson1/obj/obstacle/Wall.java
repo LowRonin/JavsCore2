@@ -1,6 +1,30 @@
 package Lesson1.obj.obstacle;
 
-public class Wall extends Obstacle {
+import Lesson1.inter.Obstacle;
+
+public class Wall implements Obstacle {
+    private int height;
     public Wall() {
+        height = (int)(Math.random()*100);
     }
+
+    @Override
+    public String toString() {
+        return "Wall{" +
+                "id=" +
+                ", height=" + height +
+                '}';
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public int getDistance() {
+
+        return 0;
+    }
+
+
 }
