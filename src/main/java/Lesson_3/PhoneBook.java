@@ -1,8 +1,7 @@
-package Lesson3;
+package Lesson_3;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Написать простой класс Телефонный Справочник, который хранит в себе список фамилий и телефонных номеров.
