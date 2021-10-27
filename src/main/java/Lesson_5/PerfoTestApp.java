@@ -50,10 +50,8 @@ public class PerfoTestApp {
         thread2.start();
         thread1.join();
         thread2.join();
-        float[] mergedArr = new float[size];
-        System.arraycopy(copyArrLeft, 0, mergedArr, 0, size/2);
-        System.arraycopy(copyArrRight, 0, mergedArr, size/2, size/2);
-
+        System.arraycopy(copyArrLeft, 0, arr, 0, size/2);
+        System.arraycopy(copyArrRight, 0, arr, size/2, size/2);
         System.out.println("Two thread time: " + (System.currentTimeMillis() - startTime) + " ms.");
     }
 }
