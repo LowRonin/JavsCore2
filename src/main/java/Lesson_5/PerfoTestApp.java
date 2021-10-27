@@ -37,22 +37,23 @@ public class PerfoTestApp {
 
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < copyArrLeft.length; i++) {
-                    copyArrLeft[i] = (float) (copyArrLeft[i] * Math.sin(0.2f + i / 5) *
-                            Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                copyArrLeft[i] = (float)(copyArrLeft[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
             }
         });
 
         Thread thread2 = new Thread(() -> {
-            for (int i = 0, j = copyArrLeft.length; i < copyArrRight.length; j++, i++) {
-                copyArrRight[i] = (float) (copyArrRight[i] * Math.sin(0.2f + j / 5) *
-                        Math.cos(0.2f + j / 5) * Math.cos(0.4f + j / 2));
+            for (int i = 0, j = size/2; i < copyArrRight.length; j++, i++) {
+                copyArrRight[i] = (float)(copyArrRight[i] * Math.sin(0.2f + j / 5) * Math.cos(0.2f + j / 5) * Math.cos(0.4f + j / 2));
             }
         });
-
         thread1.start();
         thread2.start();
         thread1.join();
         thread2.join();
+        float[] mergedArr = new float[size];
+        System.arraycopy(copyArrLeft, 0, mergedArr, 0, size/2);
+        System.arraycopy(copyArrRight, 0, mergedArr, size/2, size/2);
+
         System.out.println("Two thread time: " + (System.currentTimeMillis() - startTime) + " ms.");
     }
 }
