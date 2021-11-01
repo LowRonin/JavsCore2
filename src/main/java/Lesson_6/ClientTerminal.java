@@ -1,7 +1,5 @@
 package Lesson_6;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,6 +23,10 @@ public class ClientTerminal {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
+
+    public static void main(String[] args) {
+        new ClientTerminal();
+    }
 
     public ClientTerminal() {
         try {
@@ -93,8 +95,6 @@ public class ClientTerminal {
         }).start();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ClientTerminal());
-    }
+
 
 }
