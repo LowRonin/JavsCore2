@@ -1,6 +1,5 @@
 package Lesson_7.server;
 
-import Lesson1.obj.obstacle.Wall;
 import Lesson_7.constants.Constants;
 
 import java.io.DataInputStream;
@@ -17,8 +16,14 @@ public class ClientHandler {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
-    private String name;
+    public String name;
 
+    /**
+     * Создание
+     *
+     * @param server
+     * @param socket
+     */
     public ClientHandler(MyServer server, Socket socket) {
         try {
             this.server = server;
@@ -41,26 +46,31 @@ public class ClientHandler {
         }
     }
 
+    /**
+     * Аутентификация клиентов
+     *
+     * @throws IOException
+     */
     private void authentification() throws IOException {
-        while (true){
+        while (true) {
             String str = in.readUTF();
-            if (str.startsWith(Constants.AUTH_COMMAND)){
+            if (str.startsWith(Constants.AUTH_COMMAND)) {
                 String[] tokens = str.split("\\s+");
                 String nick = server.getAuthService().getNickByLoginAndPass(tokens[1], tokens[2]);
                 if (nick != null) {
                     name = nick;
-                    sendMEssage(Constants.AUTH_COMMAND + " " + nick);
-                    server.broadcastMessage(nick + " вошел в чат");
-                        server.subscribe(this);
+                    sendMEssage(Constants.AUTH_COMMAND + " " + name);
+                    server.broadcastMessage(name + " вошел в чат");
+                    server.subscribe(this);
                     return;
                 } else {
-                    sendMEssage("Неверные логин/паоль");
+                    sendMEssage("Неверные логин/пароль");
                 }
             }
         }
     }
 
-    public void sendMEssage(String message){
+    public void sendMEssage(String message) {
         try {
             out.writeUTF(message);
         } catch (IOException e) {
@@ -68,31 +78,42 @@ public class ClientHandler {
         }
     }
 
+
     private void readMessage() throws IOException {
         while (true) {
             String messageFromClient = in.readUTF();
-            System.out.println("Сообщегте от " + name + ": " + messageFromClient);
+            System.out.println("Сообщение от " + name + ": " + messageFromClient);
             if (messageFromClient.equals(Constants.END_COMMAND)) {
                 break;
             }
-            server.broadcastMessage(messageFromClient);
+            if (messageFromClient.substring(0,2).equals("/w")){
+                String[] tokens = messageFromClient.split("\\s+");
+                String senderName = tokens[1];
+                messageFromClient = "";
+                for (int i = 2; i < tokens.length; i++ ){
+                    messageFromClient = messageFromClient + tokens[i] + " ";
+                }
+                server.privateMessage(messageFromClient, senderName, this.name);
+            } else {
+                server.broadcastMessage(this.name + " говорит: " + messageFromClient);
+            }
         }
     }
 
-    private void closeConnection(){
+    private void closeConnection() {
         server.unsubscribe(this);
         server.broadcastMessage(name + "Вышел из чата");
         try {
             in.close();
-        }catch (IOException ex){
+        } catch (IOException ex) {
         }
         try {
             out.close();
-        }catch (IOException ex){
+        } catch (IOException ex) {
         }
         try {
             socket.close();
-        }catch (IOException ex){
+        } catch (IOException ex) {
         }
     }
 }

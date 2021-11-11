@@ -44,14 +44,14 @@ public class ClientTerminal {
         out = new DataOutputStream(socket.getOutputStream());
     }
 
-    public void closeConnection(){
+    public void closeConnection() {
         try {
-            in.close();;
+            in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-            out.close();;
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class ClientTerminal {
         }
     }
 
-    public void sendMessage(){
+    public void sendMessage() {
         Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
             while (true) {
@@ -77,7 +77,7 @@ public class ClientTerminal {
         }).start();
     }
 
-    public void receiveMessage(){
+    public void receiveMessage() {
         new Thread(() -> {
             while (true) {
                 String sIn = null;
@@ -94,7 +94,4 @@ public class ClientTerminal {
             }
         }).start();
     }
-
-
-
 }

@@ -12,7 +12,6 @@ public class EchoServer {
     private static DataInputStream in;
 
     public static void main(String[] args) {
-
         Socket socket = null;
         try (ServerSocket serverSocket = new ServerSocket(8189)) {
             System.out.println("Сервер запущен, ожидает подключения...");
@@ -27,22 +26,21 @@ public class EchoServer {
         }
     }
 
-
     public static void sendMessageSvr() {
         Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
-            while (true){
+            while (true) {
                 try {
                     String sOut = scanner.nextLine();
                     out.writeUTF("Сервер: " + sOut);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-        }
+            }
         }).start();
     }
 
-    public static void receiveMessageSvr(){
+    public static void receiveMessageSvr() {
         new Thread(() -> {
             while (true) {
                 String sIn = null;
@@ -57,7 +55,5 @@ public class EchoServer {
                 System.out.println(sIn);
             }
         }).start();
-
     }
-
 }

@@ -12,6 +12,7 @@ import java.util.List;
  * Логика сервера
  */
 public class MyServer {
+
     /**
      * Сервис аутентификации
      */
@@ -22,14 +23,12 @@ public class MyServer {
      */
     private List<ClientHandler> clients;
 
-    public MyServer(){
-        try (ServerSocket server = new ServerSocket(Constants.SERVER_PORT)){
+    public MyServer() {
+        try (ServerSocket server = new ServerSocket(Constants.SERVER_PORT)) {
             authService = new BaseAuthService();
             authService.start();
-
             clients = new ArrayList<>();
-
-            while (true){
+            while (true) {
                 System.out.println("Сервер ожидает подключения");
                 Socket socket = server.accept();
                 System.out.println("Клиент подключен");
@@ -38,7 +37,7 @@ public class MyServer {
         } catch (IOException ex) {
             System.out.println("Ошибка в работе сервера");
             ex.printStackTrace();
-        }finally {
+        } finally {
             if (authService != null) {
                 authService.stop();
             }
@@ -51,16 +50,21 @@ public class MyServer {
 
     public synchronized void broadcastMessage(String message) {
         clients.forEach(client -> client.sendMEssage(message));
-/*        for (ClientHandler client : clients){
-            client.sendMEssage(message);
-        }*/
+    }
+
+    public synchronized void privateMessage(String message, String senderNick, String myNick) {
+        for (ClientHandler client : clients) {
+            if (client.name.equals(senderNick) || client.name.equals(myNick)) {
+                client.sendMEssage(myNick + " шепчет: " + message);
+            }
+        }
     }
 
     public synchronized void subscribe(ClientHandler client) {
         clients.add(client);
     }
 
-    public synchronized void unsubscribe(ClientHandler client){
+    public synchronized void unsubscribe(ClientHandler client) {
         clients.remove(client);
     }
 }
