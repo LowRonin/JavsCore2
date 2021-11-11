@@ -1,6 +1,6 @@
-package Lesson_7.server;
+package Lesson7.server;
 
-import Lesson_7.constants.Constants;
+import Lesson7.constants.Constants;
 
 import java.io.IOException;
 import java.net.ServerSocket;

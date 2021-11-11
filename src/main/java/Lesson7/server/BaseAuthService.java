@@ -1,4 +1,4 @@
-package Lesson_7.server;
+package Lesson7.server;
 
 import java.util.ArrayList;
 import java.util.List;
