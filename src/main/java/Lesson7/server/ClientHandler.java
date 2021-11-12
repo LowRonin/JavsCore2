@@ -86,7 +86,10 @@ public class ClientHandler {
             if (messageFromClient.equals(Constants.END_COMMAND)) {
                 break;
             }
-            if (messageFromClient.substring(0,2).equals("/w")){
+            if (messageFromClient.startsWith(Constants.CLIENT_LIST_COMMAND)){
+                sendMEssage(server.printActiveClients());
+            }
+            if (messageFromClient.startsWith(Constants.WHISPER_COMMAND)){
                 String[] tokens = messageFromClient.split("\\s+");
                 String senderName = tokens[1];
                 messageFromClient = "";
@@ -98,6 +101,10 @@ public class ClientHandler {
                 server.broadcastMessage(this.name + " говорит: " + messageFromClient);
             }
         }
+    }
+
+    public String getName() {
+        return name;
     }
 
     private void closeConnection() {

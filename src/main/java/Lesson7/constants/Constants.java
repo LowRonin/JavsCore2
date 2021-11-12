@@ -12,4 +12,8 @@ public class Constants {
     public static final String AUTH_COMMAND = "/auth";
 
     public static final String  AUTH_OK_COMMAND = "/authok";
+
+    public static final String WHISPER_COMMAND = "/w";
+
+    public static final String CLIENT_LIST_COMMAND = "/clients";
 }

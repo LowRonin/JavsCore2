@@ -67,4 +67,12 @@ public class MyServer {
     public synchronized void unsubscribe(ClientHandler client) {
         clients.remove(client);
     }
+
+    public synchronized String printActiveClients() {
+        StringBuilder sb = new StringBuilder(Constants.CLIENT_LIST_COMMAND).append(" ");
+        for (ClientHandler clientHandler : clients){
+            sb.append(clientHandler.getName()).append(" ");
+        }
+        return sb.toString();
+    }
 }
