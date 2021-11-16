@@ -18,6 +18,8 @@ import java.net.Socket;
         private Socket socket;
         private DataInputStream dataInputStream;
         private DataOutputStream dataOutputStream;
+        private String login;
+        boolean authCheck = false;
 
         public Client() {
             try {
@@ -42,9 +44,20 @@ import java.net.Socket;
                         String messageFromServer = dataInputStream.readUTF();
                         if (messageFromServer.equals("/end")) {
                             break;
+                        } else if(messageFromServer.startsWith(Constants.AUTH_OK_COMMAND)) {
+                            String[] tokens = messageFromServer.split("\\s+");
+                            this.login = tokens[1];
+                            textArea.append("Успешно авторизован как " + login);
+                            textArea.append("\n");
+                            /*
+                            Авторизация
+                             */
+                            authCheck = true;
+                        }else if (messageFromServer.startsWith(Constants.CLIENTS_LIST_COMMAND)) {
+                        } else {
+                            textArea.append(messageFromServer);
+                            textArea.append("\n");
                         }
-                        textArea.append(messageFromServer);
-                        textArea.append("\n");
                     }
                     textArea.append("Соединение разорвано");
                     textField.setEnabled(false);
@@ -97,6 +110,7 @@ import java.net.Socket;
             setBounds(200, 200, 500, 500);
             setTitle("EchoClient");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
+
             textArea = new JTextArea();
             textArea.setEditable(false);
             textArea.setLineWrap(true);
@@ -110,6 +124,27 @@ import java.net.Socket;
             panel.add(textField, BorderLayout.CENTER);
 
             add(panel, BorderLayout.SOUTH);
+
+            JPanel loginPanel = new JPanel(new BorderLayout());
+            JTextField loginField = new JTextField();
+            loginPanel.add(loginField, BorderLayout.WEST);
+            JTextField passField = new JTextField();
+            loginPanel.add(passField, BorderLayout.CENTER);
+            JButton authButton = new JButton("Авторизоваться");
+            loginPanel.add(authButton, BorderLayout.EAST);
+            add(loginPanel, BorderLayout.NORTH);
+            authButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        dataOutputStream.writeUTF(Constants.AUTH_COMMAND + " " + loginField.getText() + " " + passField.getText());
+
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+
+            });
 
             button.addActionListener(new ActionListener() {
                 @Override
@@ -125,6 +160,20 @@ import java.net.Socket;
             });
 
             setVisible(true);
+            new Thread(() -> {
+                try {
+                    /*
+                    Проверка авторизации
+                     */
+                    Thread.sleep(120000);
+                    if (!authCheck){
+                        closeConnection();
+                        closeFrame();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
 
         public static void main(String[] args) {

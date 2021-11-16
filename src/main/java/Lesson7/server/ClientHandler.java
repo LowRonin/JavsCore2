@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Optional;
 
 /**
  * Обработчик для конкретного клиента
@@ -40,27 +41,26 @@ public class ClientHandler {
                     closeConnection();
                 }
             }).start();
-
         } catch (IOException ex) {
-            throw new RuntimeException("Проблема при создании обработчика");
+            throw new RuntimeException("Проблемы при создании обработчика");
         }
     }
 
     /**
      * Аутентификация клиентов
-     *
      * @throws IOException
      */
     private void authentification() throws IOException {
         while (true) {
             String str = in.readUTF();
             if (str.startsWith(Constants.AUTH_COMMAND)) {
-                String[] tokens = str.split("\\s+");
-                String nick = server.getAuthService().getNickByLoginAndPass(tokens[1], tokens[2]);
-                if (nick != null) {
-                    name = nick;
-                    sendMEssage(Constants.AUTH_COMMAND + " " + name);
-                    server.broadcastMessage(name + " вошел в чат");
+                String[] tokens = str.split("\\s+");    //3
+                Optional<String> nick = server.getAuthService().getNickByLoginAndPass(tokens[1], tokens[2]);
+                if (nick.isPresent()) {
+                    name = nick.get();
+                    sendMEssage(Constants.AUTH_OK_COMMAND + " " + nick);
+                    server.broadcastMessage(nick + " вошел в чат");
+                    server.broadcastMessage(server.getActiveClients());
                     server.subscribe(this);
                     return;
                 } else {
@@ -78,7 +78,6 @@ public class ClientHandler {
         }
     }
 
-
     private void readMessage() throws IOException {
         while (true) {
             String messageFromClient = in.readUTF();
@@ -87,8 +86,8 @@ public class ClientHandler {
 
                 break;
             }
-            if (messageFromClient.startsWith(Constants.CLIENT_LIST_COMMAND)){
-                sendMEssage(server.printActiveClients());
+            if (messageFromClient.startsWith(Constants.CLIENTS_LIST_COMMAND)){
+                sendMEssage(server.getActiveClients());
             }
             if (messageFromClient.startsWith(Constants.WHISPER_COMMAND)){
                 String[] tokens = messageFromClient.split("\\s+");

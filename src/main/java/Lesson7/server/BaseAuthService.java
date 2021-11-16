@@ -2,6 +2,7 @@ package Lesson7.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BaseAuthService implements AuthService {
 
@@ -9,9 +10,9 @@ public class BaseAuthService implements AuthService {
 
     public BaseAuthService() {
         entries = new ArrayList<>();
-        entries.add(new Entry("Login", "pass", "nick"));
-        entries.add(new Entry("Login2", "pass2", "nick2"));
-        entries.add(new Entry("Login3", "pass3", "nick3"));
+        entries.add(new Entry("login", "pass", "nick"));
+        entries.add(new Entry("login2", "pass2", "nick2"));
+        entries.add(new Entry("login3", "pass3", "nick3"));
     }
 
     @Override
@@ -21,27 +22,25 @@ public class BaseAuthService implements AuthService {
 
     @Override
     public void stop() {
-        System.out.println("Серви аутентификации выкл.");
+        System.out.println("Сервис аутентификации выкл.");
     }
 
     @Override
-    public String getNickByLoginAndPass(String login, String pass) {
-        for (Entry entry : entries){
-            if (entry.login.equals(login) && entry.pass.equals(pass)) {
-                return entry.nick;
-            }
-        }
-        return null;
+    public Optional<String> getNickByLoginAndPass(String login, String pass) {
+        return entries.stream()
+                .filter(entry -> entry.login.equals(login) && entry.password.equals(pass))
+                .map(entry -> entry.nick)
+                .findFirst();
     }
 
     private class Entry{
         private String login;
-        private String pass;
+        private String password;
         private String nick;
 
         public Entry(String login, String pass, String nick) {
             this.login = login;
-            this.pass = pass;
+            this.password = pass;
             this.nick = nick;
         }
     }
