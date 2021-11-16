@@ -84,6 +84,7 @@ public class ClientHandler {
             String messageFromClient = in.readUTF();
             System.out.println("Сообщение от " + name + ": " + messageFromClient);
             if (messageFromClient.equals(Constants.END_COMMAND)) {
+
                 break;
             }
             if (messageFromClient.startsWith(Constants.CLIENT_LIST_COMMAND)){

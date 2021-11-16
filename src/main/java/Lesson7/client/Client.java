@@ -28,6 +28,10 @@ import java.net.Socket;
             prepareUI();
         }
 
+        public void closeFrame(){
+            this.dispose();
+        }
+
         private void openConnection() throws IOException {
             socket = new Socket(Constants.SERVER_ADDRESS, Constants.SERVER_PORT);
             dataInputStream = new DataInputStream(socket.getInputStream());
@@ -76,6 +80,12 @@ import java.net.Socket;
             }
             try {
                 dataOutputStream.writeUTF(textField.getText());
+                /*
+                Выход по команде end
+                */
+                if (textField.getText().startsWith("/end")){
+                    closeFrame();
+                }
                 textField.setText("");
                 textField.grabFocus();
             }catch (Exception ex) {
