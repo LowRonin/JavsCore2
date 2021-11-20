@@ -22,6 +22,7 @@ public class MyServer {
     /**
      * Активные клиенты
      */
+
     private List<ClientHandler> clients;
 
     public MyServer() {
