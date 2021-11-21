@@ -1,10 +1,11 @@
-package Lesson7.server;
+package Lesson10.server;
 
-import Lesson7.constants.Constants;
+import Lesson10.constants.Constants;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,13 +52,13 @@ public class MyServer {
     }
 
     public synchronized void broadcastMessage(String message) {
-        clients.forEach(client -> client.sendMEssage(message));
+        clients.forEach(client -> client.sendMessage(message));
     }
 
     public synchronized void privateMessage(String message, String senderNick, String myNick) {
         for (ClientHandler client : clients) {
             if (client.name.equals(senderNick) || client.name.equals(myNick)) {
-                client.sendMEssage(myNick + " шепчет: " + message);
+                client.sendMessage(myNick + " шепчет: " + message);
             }
         }
     }

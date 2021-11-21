@@ -1,4 +1,4 @@
-package Lesson7.constants;
+package Lesson10.constants;
 
 public class Constants {
     public static final String SERVER_ADDRESS = "localhost";
@@ -16,4 +16,6 @@ public class Constants {
     public static final String WHISPER_COMMAND = "/w";
 
     public static final String CLIENTS_LIST_COMMAND = "/clients";
+
+    public static final String CHANGE_NICK_COMMAND = "/cNick";
 }
