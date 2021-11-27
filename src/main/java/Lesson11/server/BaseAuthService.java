@@ -1,10 +1,8 @@
-package Lesson10.server;
+package Lesson11.server;
 
-import java.io.StringReader;
-import java.sql.ResultSet;
+import Lesson11.server.DataBase.JDBConnect;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class BaseAuthService implements AuthService {

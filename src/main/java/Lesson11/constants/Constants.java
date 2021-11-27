@@ -1,4 +1,4 @@
-package Lesson10.constants;
+package Lesson11.constants;
 
 public class Constants {
     public static final String SERVER_ADDRESS = "localhost";
