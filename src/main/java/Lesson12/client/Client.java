@@ -1,7 +1,7 @@
-package Lesson11.client;
+package Lesson12.client;
 
-import Lesson11.constants.Constants;
-import Lesson11.server.File.FileHandlers;
+import Lesson12.constants.Constants;
+import Lesson12.server.File.FileHandlers;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +11,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    public class Client extends JFrame {
+public class Client extends JFrame {
         private JTextField textField;
         private JTextArea textArea;
 
@@ -21,6 +23,8 @@ import java.net.Socket;
         private DataOutputStream dataOutputStream;
         private String login;
         boolean authCheck = false;
+
+    ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         public Client() {
             try {
@@ -39,7 +43,7 @@ import java.net.Socket;
             socket = new Socket(Constants.SERVER_ADDRESS, Constants.SERVER_PORT);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            new Thread(() -> {
+            executorService.execute(() -> {
                 try {
                     while (true) {
                         String messageFromServer = dataInputStream.readUTF();
@@ -72,7 +76,7 @@ import java.net.Socket;
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }).start();
+            });
         }
 
 
@@ -92,6 +96,7 @@ import java.net.Socket;
             } catch (Exception ex) {
 
             }
+            executorService.shutdown();
         }
 
         private void sendMessage() {
@@ -164,7 +169,7 @@ import java.net.Socket;
             });
 
             setVisible(true);
-            new Thread(() -> {
+           executorService.execute (() -> {
                 try {
                     /*
                     Проверка авторизации
@@ -177,7 +182,7 @@ import java.net.Socket;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }).start();
+            });
         }
 
         public static void main(String[] args) {
