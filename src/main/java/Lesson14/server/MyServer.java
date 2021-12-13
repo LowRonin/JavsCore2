@@ -1,6 +1,8 @@
-package Lesson12.server;
+package Lesson14.server;
 
-import Lesson12.constants.Constants;
+import Lesson14.constants.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -11,9 +13,11 @@ import java.util.stream.Collectors;
 
 /**
  * Логика сервера
+ * Добавить на серверную сторону сетевого чата логирование событий (сервер запущен, произошла ошибка, клиент подключился, клиент прислал сообщение/команду).
  */
 public class MyServer {
 
+private static final Logger logger = LogManager.getLogger(MyServer.class.getName());
     /**
      * Сервис аутентификации
      */
@@ -33,11 +37,14 @@ public class MyServer {
             while (true) {
                 System.out.println("Сервер ожидает подключения");
                 Socket socket = server.accept();
+                logger.info("Сервер запущен");
                 System.out.println("Клиент подключен");
                 new ClientHandler(this, socket);
+                logger.info("Клиент подключен");
             }
         } catch (IOException ex) {
             System.out.println("Ошибка в работе сервера");
+            logger.error("Ошибка в работе сервера");
             ex.printStackTrace();
         } finally {
             if (authService != null) {
@@ -52,12 +59,14 @@ public class MyServer {
 
     public synchronized void broadcastMessage(String message) {
         clients.forEach(client -> client.sendMessage(message));
+        logger.info(message);
     }
 
     public synchronized void privateMessage(String message, String senderNick, String myNick) {
         for (ClientHandler client : clients) {
             if (client.name.equals(senderNick) || client.name.equals(myNick)) {
                 client.sendMessage(myNick + " шепчет: " + message);
+                logger.info(myNick + " шепчет: " + message);
             }
         }
     }
@@ -71,11 +80,10 @@ public class MyServer {
     }
 
     public synchronized String getActiveClients() {
-        StringBuilder sb = new StringBuilder(Constants.CLIENTS_LIST_COMMAND).append(" ");
-        sb.append(clients.stream()
-                .map(c -> c.getName())
-                .collect(Collectors.joining(" "))
-        );
-        return sb.toString();
+        String sb = Constants.CLIENTS_LIST_COMMAND + " " +
+                clients.stream()
+                        .map(ClientHandler::getName)
+                        .collect(Collectors.joining(" "));
+        return sb;
     }
 }
