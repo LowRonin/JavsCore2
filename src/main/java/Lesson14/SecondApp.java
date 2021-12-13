@@ -21,9 +21,6 @@ public class SecondApp {
      */
 
     public boolean second(Integer[] inArr) {
-        if (Arrays.asList(inArr).contains(1) && Arrays.asList(inArr).contains(4)) {
-            return true;
-        }
-        return false;
+        return Arrays.asList(inArr).contains(1) && Arrays.asList(inArr).contains(4);
     }
 }

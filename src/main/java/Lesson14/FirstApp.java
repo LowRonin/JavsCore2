@@ -1,7 +1,5 @@
 package Lesson14;
 
-import java.util.Arrays;
-
 public class FirstApp {
 /*    public static void main(String[] args) {
         int[] arr = new int[]{1, 2, 4, 4, 2, 3, 4, 1, 7};
