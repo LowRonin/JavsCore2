@@ -1,4 +1,4 @@
-package Lesson15;
+package Lesson15.annotations;
 
 
 import java.lang.annotation.ElementType;
@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface MyAnnotation {
+public @interface MyTestAnnotation {
     int priority() default 5;
 }
