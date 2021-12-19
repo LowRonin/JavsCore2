@@ -1,8 +1,6 @@
 package Lesson9;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -34,7 +32,7 @@ import java.util.Scanner;
 
 public class App {
 
-    private static String[] arr = new String[5];
+    private static final String[] arr = new String[5];
 
     public static void main(String[] args) {
         arr[0]="1";
@@ -45,8 +43,8 @@ public class App {
         System.out.println(Arrays.toString(arr));
         Scanner scanner = new Scanner(System.in);
         while (true){
-            String firstElement = null;
-            String secondElement = null;
+            String firstElement;
+            String secondElement;
             int firstIntElement;
             int secondIntElement;
 
@@ -60,8 +58,8 @@ public class App {
                 break;
             }
             try {
-              firstIntElement = Integer.valueOf(firstElement)-1;
-               secondIntElement = Integer.valueOf(secondElement)-1;
+              firstIntElement = Integer.parseInt(firstElement)-1;
+               secondIntElement = Integer.parseInt(secondElement)-1;
             } catch (Exception e){
                 System.out.println("Неподходящие значения");
                 break;
@@ -78,10 +76,4 @@ public class App {
 
     }
 
-    public static List arraysToList(Object[] arr){
-
-        List list = new ArrayList();
-        return list;
-
-    }
 }

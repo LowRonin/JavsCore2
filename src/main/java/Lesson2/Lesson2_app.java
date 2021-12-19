@@ -5,16 +5,13 @@ import Lesson2.MyArraySizeException.MyArraySizeException;
 
 public class Lesson2_app {
 
-    public static void main(String[] args) throws MyArrayDataException, MyArrayDataException {
+    public static void main(String[] args) throws MyArrayDataException {
         try {
             System.out.println(FindException.findException(sArray(4, 4)));
         } catch (MyArraySizeException e){
             System.err.println(e.getMessage());
         }
 
-        /**
-         * Тут первое задание
-         */
         try {
             System.out.println(FindException.findException(sArray(5, 4)));
         } catch (MyArraySizeException e){

@@ -3,7 +3,7 @@ package Lesson1.obj.obstacle;
 import Lesson1.inter.Obstacle;
 
 public class Wall implements Obstacle {
-    private int height;
+    private final int height;
     public Wall() {
         height = (int)(Math.random()*100);
     }

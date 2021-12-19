@@ -1,8 +1,6 @@
 package Lesson13;
 
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 
 public class Car implements Runnable {
@@ -15,9 +13,9 @@ public class Car implements Runnable {
         CARS_COUNT = 0;
     }
 
-    private Race race;
-    private int speed;
-    private String name;
+    private final Race race;
+    private final int speed;
+    private final String name;
 
     public String getName() {
         return name;
@@ -65,7 +63,7 @@ public class Car implements Runnable {
                 race.getStages().get(i).go(this);
             }
         }
-        if (TestApp.win == false) {
+        if (!TestApp.win) {
             TestApp.win = true;
             System.out.println(this.name + " WIN");
         }

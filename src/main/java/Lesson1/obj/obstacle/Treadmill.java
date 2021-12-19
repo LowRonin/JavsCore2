@@ -3,7 +3,7 @@ package Lesson1.obj.obstacle;
 import Lesson1.inter.Obstacle;
 
 public class Treadmill implements Obstacle {
-    private int distance;
+    private final int distance;
     public Treadmill() {
         distance = (int)(Math.random()*1000);
     }

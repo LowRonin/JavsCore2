@@ -33,22 +33,22 @@ public class Lesson1app {
 
     public static Testee[] createTestee() {
         Testee[] testee = new Testee[3];
-        testee[0] = new Cat(1, "Bars");
-        testee[1] = new Human(2, "John connor");
-        testee[2] = new Robot(3, "T1000");
+        testee[0] = new Cat("Bars");
+        testee[1] = new Human("John connor");
+        testee[2] = new Robot("T1000");
         return testee;
     }
 
     public static void isRunning(Obstacle[] obstacles, Testee[] testee) {
-        for (int i = 0; i < testee.length; i++) {
-            for (int j = 0; j < obstacles.length; j++) {
-                if (testee[i].getMax_distance() >= obstacles[j].getDistance() &&
-                        obstacles[j].getDistance() != 0) {
-                    testee[i].runnable();
-                    obstacles[j].getDistance();
-                } else if (testee[i].getMax_height() >= obstacles[j].getHeight() &&
-                        obstacles[j].getHeight() != 0) {
-                    testee[i].jumpable();
+        for (Testee value : testee) {
+            for (Obstacle obstacle : obstacles) {
+                if (value.getMax_distance() >= obstacle.getDistance() &&
+                        obstacle.getDistance() != 0) {
+                    value.runnable();
+                    obstacle.getDistance();
+                } else if (value.getMax_height() >= obstacle.getHeight() &&
+                        obstacle.getHeight() != 0) {
+                    value.jumpable();
                 } else break;
 
 

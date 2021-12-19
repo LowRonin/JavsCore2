@@ -7,18 +7,6 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientTerminal {
-    /**
-     * Написать консольный вариант клиент\серверного приложения,
-     * в котором пользователь может писать сообщения как на клиентской стороне, так и на серверной.
-     * Т.е. если на клиентской стороне написать «Привет», нажать Enter,
-     * то сообщение должно передаться на сервер и там отпечататься в консоли.
-     * Если сделать то же самое на серверной стороне, сообщение, соответственно,
-     * передаётся клиенту и печатается у него в консоли. Есть одна особенность, которую нужно учитывать:
-     * клиент или сервер может написать несколько сообщений подряд. Такую ситуацию необходимо корректно обработать.
-     */
-
-    private final String SERVER_ADDR = "localhost";
-    private final int SERVER_PORT = 8189;
 
     private Socket socket;
     private DataInputStream in;
@@ -39,6 +27,8 @@ public class ClientTerminal {
     }
 
     public void openConnection() throws IOException {
+        String SERVER_ADDR = "localhost";
+        int SERVER_PORT = 8189;
         socket = new Socket(SERVER_ADDR, SERVER_PORT);
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());

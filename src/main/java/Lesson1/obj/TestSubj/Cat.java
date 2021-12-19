@@ -6,11 +6,10 @@ import Lesson1.inter.Testee;
 
 public class Cat implements JumpableInter,RunnableInter, Testee {
 
-    private String name;
-    private int max_height = 150;
-    private int max_distance = 0;
+    private final String name;
+    private final int max_distance = 0;
 
-    public Cat(int id, String name) {
+    public Cat(String name) {
         this.name = name;
     }
 
@@ -32,7 +31,7 @@ public class Cat implements JumpableInter,RunnableInter, Testee {
     }
 
     public int getMax_height() {
-        return max_height;
+        return 150;
     }
 
     public int getMax_distance() {

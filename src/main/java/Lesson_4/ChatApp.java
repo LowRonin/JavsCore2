@@ -1,8 +1,6 @@
 package Lesson_4;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Создать окно для клиентской части чата: большое текстовое поле для отображения переписки в центре окна.
@@ -32,20 +30,14 @@ public class ChatApp extends JFrame {
         userMessageField.setBounds(0, 480, 400,100);
         add(userMessageField);
 
-        sendMessageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                messagesField.setText(messagesField.getText()+ "\n" +userMessageField.getText());
-                userMessageField.setText("");
-            }
+        sendMessageButton.addActionListener(e -> {
+            messagesField.setText(messagesField.getText()+ "\n" +userMessageField.getText());
+            userMessageField.setText("");
         });
 
-        userMessageField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                messagesField.setText(messagesField.getText()+ "\n" +userMessageField.getText());
-                userMessageField.setText("");
-            }
+        userMessageField.addActionListener(e -> {
+            messagesField.setText(messagesField.getText()+ "\n" +userMessageField.getText());
+            userMessageField.setText("");
         });
 
 

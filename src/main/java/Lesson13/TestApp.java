@@ -1,8 +1,5 @@
 package Lesson13;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class TestApp {
@@ -20,8 +17,8 @@ public class TestApp {
         for (int i = 0; i < cars.length; i++) {
             cars[i] = new Car(race, 20 + (int) (Math.random() * 10));
         }
-        for (int i = 0; i < cars.length; i++) {
-            new Thread(cars[i]).start();
+        for (Car car : cars) {
+            new Thread(car).start();
         }
         try {
             checkpointPreparation.await();

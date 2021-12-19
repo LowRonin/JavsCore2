@@ -11,9 +11,6 @@ public class FindException {
         int value = 0;
         for (int i = 0; i < sArray.length; i++) {
             for (int j = 0; j < sArray[i].length; j++) {
-                /**
-                 * Тут 2 задание
-                 */
                 try {
                     value += Integer.parseInt(sArray[i][j]);
                 } catch (NumberFormatException re) {

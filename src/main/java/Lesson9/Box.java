@@ -3,17 +3,15 @@ package Lesson9;
 import Lesson9.Fruits.Apple;
 import Lesson9.Fruits.Fruit;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Box <T extends Fruit> {
 
-    private List<T> list;
+    private final List<T> list;
 
     public Box() {
-        list = new ArrayList<T>();
+        list = new ArrayList<>();
     }
 
     public boolean add(T fruit) {
@@ -32,8 +30,8 @@ public class Box <T extends Fruit> {
 
     public String toString() {
         String string = "";
-        for (int i = 0; i<this.list.size(); i++){
-            string = string + "[" + this.list.get(i).getClass().getName() + "] ";
+        for (T t : this.list) {
+            string = string + "[" + t.getClass().getName() + "] ";
         }
         return string;
     }

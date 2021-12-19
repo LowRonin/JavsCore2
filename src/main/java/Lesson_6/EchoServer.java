@@ -12,7 +12,7 @@ public class EchoServer {
     private static DataInputStream in;
 
     public static void main(String[] args) {
-        Socket socket = null;
+        Socket socket;
         try (ServerSocket serverSocket = new ServerSocket(8189)) {
             System.out.println("Сервер запущен, ожидает подключения...");
             socket = serverSocket.accept();

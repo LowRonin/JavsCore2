@@ -5,11 +5,9 @@ import Lesson1.inter.Testee;
 
 public class Robot implements RunnableInter, Testee {
 
-    private String imei;
-    private int max_height = 0;
-    private int max_distance = 3000;
+    private final String imei;
 
-    public Robot(int id, String imei) {
+    public Robot(String imei) {
         this.imei = imei;
     }
 
@@ -21,11 +19,11 @@ public class Robot implements RunnableInter, Testee {
                 '}';
     }
     public int getMax_height() {
-        return max_height;
+        return 0;
     }
 
     public int getMax_distance() {
-        return max_distance;
+        return 3000;
     }
 
     @Override

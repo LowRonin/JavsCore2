@@ -6,11 +6,11 @@ import Lesson1.inter.Testee;
 
 public class Human implements JumpableInter,RunnableInter, Testee {
 
-    private String name;
-    private int max_height = 150;
-    private int max_distance = 3000;
+    private final String name;
+    private final int max_height = 150;
+    private final int max_distance = 3000;
 
-    public Human(int id, String name) {
+    public Human(String name) {
         this.name = name;
     }
 
