@@ -11,7 +11,7 @@ public class MyTest {
 
     @BeforeSuite
     void before() {
-        System.out.println("Сделать первым");
+        System.out.println("Выполнить первым");
     }
 
   //  @BeforeSuite
@@ -20,19 +20,24 @@ public class MyTest {
 
     @AfterSuite
     void after(){
-        System.out.println("Сделать последним");
+        System.out.println("Выполнить последним");
     }
 
     @MyTestAnnotation
     private void sequenceCheck(){
-        System.out.println("Выполнилось вторым");
+        System.out.println("Приоритет 5");
     }
 
     @MyTestAnnotation(priority = 9)
     private void myTest(){
         int x = 0;
         x = x + 2;
-        System.out.println(x + "Получилось");
+        System.out.println("приоритет 9");
+
+    }
+
+    @MyTestAnnotation
+    private void test8(){
 
     }
 
