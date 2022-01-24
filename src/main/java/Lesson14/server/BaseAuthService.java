@@ -1,12 +1,12 @@
-package Lesson12.server;
+package Lesson14.server;
 
-import Lesson12.server.DataBase.JDBConnect;
+import Lesson14.server.DataBase.JDBConnect;
 
 import java.sql.SQLException;
 import java.util.Optional;
 
 public class BaseAuthService implements AuthService {
-    
+
     @Override
     public void start() {
         System.out.println("Сервис аутентификации вкл.");
@@ -24,6 +24,6 @@ public class BaseAuthService implements AuthService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return Optional.empty();
     }
 }

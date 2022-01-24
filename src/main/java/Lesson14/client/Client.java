@@ -1,12 +1,10 @@
-package Lesson12.client;
+package Lesson14.client;
 
-import Lesson12.constants.Constants;
-import Lesson12.server.File.FileHandlers;
+import Lesson14.constants.Constants;
+import Lesson14.server.File.FileHandlers;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -64,8 +62,8 @@ public class Client extends JFrame {
                         } else {
                             textArea.append(messageFromServer);
                             textArea.append("\n");
-                            /**
-                             * Логирование чата
+                            /*
+                              Логирование чата
                              */
                             FileHandlers.writeClientMessageLog(messageFromServer);
                         }
@@ -84,17 +82,17 @@ public class Client extends JFrame {
             try {
                 dataOutputStream.close();
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
             try {
                 dataInputStream.close();
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
             try {
                 socket.close();
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
             executorService.shutdown();
         }
@@ -142,31 +140,17 @@ public class Client extends JFrame {
             JButton authButton = new JButton("Авторизоваться");
             loginPanel.add(authButton, BorderLayout.EAST);
             add(loginPanel, BorderLayout.NORTH);
-            authButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        dataOutputStream.writeUTF(Constants.AUTH_COMMAND + " " + loginField.getText() + " " + passField.getText());
+            authButton.addActionListener(e -> {
+                try {
+                    dataOutputStream.writeUTF(Constants.AUTH_COMMAND + " " + loginField.getText() + " " + passField.getText());
 
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                }
-
-            });
-
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    sendMessage();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
             });
-            textField.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    sendMessage();
-                }
-            });
+
+            button.addActionListener(e -> sendMessage());
+            textField.addActionListener(e -> sendMessage());
 
             setVisible(true);
            executorService.execute (() -> {
