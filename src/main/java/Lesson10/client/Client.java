@@ -1,6 +1,6 @@
-package Lesson7.client;
+package Lesson10.client;
 
-import Lesson7.constants.Constants;
+import Lesson10.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;

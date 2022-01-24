@@ -1,11 +1,12 @@
-package Lesson7.server;
+package Lesson10.server;
 
-import Lesson7.constants.Constants;
+import Lesson10.constants.Constants;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.Optional;
 
 /**
@@ -18,6 +19,8 @@ public class ClientHandler {
     private DataInputStream in;
     private DataOutputStream out;
     public String name;
+    private String login;
+    private String pass;
 
     /**
      * Создание
@@ -54,23 +57,26 @@ public class ClientHandler {
         while (true) {
             String str = in.readUTF();
             if (str.startsWith(Constants.AUTH_COMMAND)) {
-                String[] tokens = str.split("\\s+");    //3
+                String[] tokens = str.split("\\s+");
+
                 Optional<String> nick = server.getAuthService().getNickByLoginAndPass(tokens[1], tokens[2]);
                 if (nick.isPresent()) {
+                    login = tokens[1];
+                    pass = tokens[2];
                     name = nick.get();
-                    sendMEssage(Constants.AUTH_OK_COMMAND + " " + nick);
+                    sendMessage(Constants.AUTH_OK_COMMAND + " " + nick);
                     server.broadcastMessage(nick + " вошел в чат");
                     server.broadcastMessage(server.getActiveClients());
                     server.subscribe(this);
                     return;
                 } else {
-                    sendMEssage("Неверные логин/пароль");
+                    sendMessage("Неверные логин/пароль");
                 }
             }
         }
     }
 
-    public void sendMEssage(String message) {
+    public void sendMessage(String message) {
         try {
             out.writeUTF(message);
         } catch (IOException e) {
@@ -86,8 +92,19 @@ public class ClientHandler {
 
                 break;
             }
+            if (messageFromClient.startsWith(Constants.CHANGE_NICK_COMMAND)){
+                String[] tokens = messageFromClient.split("\\s+");
+                try {
+                    JDBConnect.changeNick(login, pass, tokens[1]);
+                    messageFromClient = name + "поменял ник на: " + tokens[1];
+                    name=tokens[1];
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
             if (messageFromClient.startsWith(Constants.CLIENTS_LIST_COMMAND)){
-                sendMEssage(server.getActiveClients());
+                sendMessage(server.getActiveClients());
             }
             if (messageFromClient.startsWith(Constants.WHISPER_COMMAND)){
                 String[] tokens = messageFromClient.split("\\s+");

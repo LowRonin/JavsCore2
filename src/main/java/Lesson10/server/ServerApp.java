@@ -1,4 +1,4 @@
-package Lesson7.server;
+package Lesson10.server;
 
 public class ServerApp {
 
