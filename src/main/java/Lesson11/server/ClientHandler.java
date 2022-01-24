@@ -1,6 +1,8 @@
-package Lesson10.server;
+package Lesson11.server;
 
-import Lesson10.constants.Constants;
+import Lesson11.constants.Constants;
+import Lesson11.server.DataBase.JDBConnect;
+import Lesson11.server.File.FileHandlers;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -58,7 +60,6 @@ public class ClientHandler {
             String str = in.readUTF();
             if (str.startsWith(Constants.AUTH_COMMAND)) {
                 String[] tokens = str.split("\\s+");
-
                 Optional<String> nick = server.getAuthService().getNickByLoginAndPass(tokens[1], tokens[2]);
                 if (nick.isPresent()) {
                     login = tokens[1];
@@ -78,6 +79,11 @@ public class ClientHandler {
 
     public void sendMessage(String message) {
         try {
+            /**
+             * Лоигирование чата
+             */
+            FileHandlers.writeMessageLog(message);
+
             out.writeUTF(message);
         } catch (IOException e) {
             e.printStackTrace();

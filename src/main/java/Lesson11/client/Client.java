@@ -1,6 +1,7 @@
-package Lesson10.client;
+package Lesson11.client;
 
-import Lesson10.constants.Constants;
+import Lesson11.constants.Constants;
+import Lesson11.server.File.FileHandlers;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,14 +50,20 @@ import java.net.Socket;
                             this.login = tokens[1];
                             textArea.append("Успешно авторизован как " + login);
                             textArea.append("\n");
-                            /*
-                            Авторизация
-                             */
                             authCheck = true;
+                            try {
+                                textArea.append(FileHandlers.storyChat());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }else if (messageFromServer.startsWith(Constants.CLIENTS_LIST_COMMAND)) {
                         } else {
                             textArea.append(messageFromServer);
                             textArea.append("\n");
+                            /**
+                             * Логирование чата
+                             */
+                            FileHandlers.writeClientMessageLog(messageFromServer);
                         }
                     }
                     textArea.append("Соединение разорвано");
@@ -93,9 +100,6 @@ import java.net.Socket;
             }
             try {
                 dataOutputStream.writeUTF(textField.getText());
-                /*
-                Выход по команде end
-                */
                 if (textField.getText().startsWith("/end")){
                     closeFrame();
                 }
